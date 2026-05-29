@@ -70,7 +70,7 @@ const FALLBACK_MENU = [
 ];
 
 export default async function MenuPage() {
-  const query = `*[_type == "dessert"] {
+  const query = `*[_type == "dessert"] | order(_createdAt desc) {
     _id,
     title,
     price,

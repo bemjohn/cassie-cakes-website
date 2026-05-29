@@ -103,7 +103,7 @@ const PROCESS_STEPS = [
 ];
 
 export default async function Home() {
-  const query = `*[_type == "dessert"] {
+  const query = `*[_type == "dessert"] | order(_createdAt desc) {
     _id,
     title,
     price,

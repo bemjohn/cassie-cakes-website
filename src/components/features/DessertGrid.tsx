@@ -33,14 +33,14 @@ export default function DessertGrid({ initialItems, showAll = false }: DessertGr
     <div className="space-y-12">
       {/* Dessert Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {displayItems.map((item: DessertItem) => {
+        {displayItems.map((item: DessertItem, index: number) => {
           const isSanityItem = !!item._id;
           const itemId = isSanityItem ? item._id : item.id;
           const itemName = isSanityItem ? item.title : item.name;
           const itemPrice = isSanityItem ? item.price : item.price;
           const itemDescription = isSanityItem ? item.description : item.description;
           const itemCategory = isSanityItem ? item.category : item.category;
-          const itemBadge = isSanityItem ? "New Creation" : item.badge;
+          const itemBadge = isSanityItem ? (index === 0 ? "New Creation" : undefined) : item.badge;
           const imageUrl = isSanityItem && item.image ? urlFor(item.image).url() : null;
 
           return (
@@ -71,9 +71,11 @@ export default function DessertGrid({ initialItems, showAll = false }: DessertGr
                     {itemCategory}
                   </span>
                   
-                  <span className="absolute top-4 right-4 text-[10px] font-extrabold text-white bg-berry-deep px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">
-                    {itemBadge}
-                  </span>
+                  {itemBadge && (
+                    <span className="absolute top-4 right-4 text-[10px] font-extrabold text-white bg-berry-deep px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">
+                      {itemBadge}
+                    </span>
+                  )}
 
                   {/* Elegant decorative curves */}
                   <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white to-transparent z-10" />

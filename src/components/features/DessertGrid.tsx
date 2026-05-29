@@ -20,10 +20,11 @@ interface DessertItem {
 
 interface DessertGridProps {
   initialItems: DessertItem[];
+  showAll?: boolean;
 }
 
-export default function DessertGrid({ initialItems }: DessertGridProps) {
-  const [limit, setLimit] = useState(8);
+export default function DessertGrid({ initialItems, showAll = false }: DessertGridProps) {
+  const [limit, setLimit] = useState(showAll ? initialItems.length : 8);
   const [activeItem, setActiveItem] = useState<DessertItem | null>(null);
 
   const displayItems = initialItems.slice(0, limit);
@@ -117,7 +118,7 @@ export default function DessertGrid({ initialItems }: DessertGridProps) {
       </div>
 
       {/* View Full Collection Button */}
-      {initialItems.length > 8 && (
+      {!showAll && initialItems.length > 8 && (
         <div className="flex justify-center mt-12">
           <button 
             onClick={() => setLimit(limit === 8 ? initialItems.length : 8)}

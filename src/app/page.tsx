@@ -117,7 +117,7 @@ export default async function Home() {
   } catch (error) {
     console.error("Error fetching desserts from Sanity:", error);
   }
-  const displayItems = desserts.length > 0 ? desserts : FEATURED_ITEMS;
+  const displayItems = (desserts.length > 0 ? desserts : FEATURED_ITEMS).slice(0, 6);
   return (
     <div className="flex flex-col min-h-screen bg-cream-light font-sans text-chocolate-dark selection:bg-berry-light selection:text-berry-deep">
       
@@ -341,6 +341,16 @@ export default async function Home() {
         </div>
 
         <DessertGrid initialItems={displayItems} />
+        
+        {/* View Full Menu CTA Button */}
+        <div className="flex justify-center mt-12">
+          <a href="/menu">
+            <Button size="lg" className="shadow-lg shadow-berry-crimson/10 hover:shadow-xl hover:shadow-berry-crimson/20 transition-all duration-300">
+              <span>View Full Menu</span>
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </a>
+        </div>
       </section>
 
       {/* 4. THE CRAFTING PROCESS SECTION */}

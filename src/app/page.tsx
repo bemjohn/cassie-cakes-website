@@ -2,7 +2,6 @@ import React from "react";
 import { 
   ArrowRight, 
   Sparkles, 
-  ChevronRight, 
   Star, 
   Award, 
   Send, 
@@ -12,23 +11,9 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { client } from "@/lib/sanity.client";
-import { urlFor } from "@/lib/sanity.image";
+import DessertGrid from "@/components/features/DessertGrid";
 
 export const dynamic = "force-dynamic";
-
-interface DessertItem {
-  _id?: string;
-  id?: string;
-  title?: string;
-  name?: string;
-  price?: string;
-  description?: string;
-  category?: string;
-  badge?: string;
-  emoji?: string;
-  flavor?: string;
-  image?: unknown;
-}
 
 // Mock data for featured grid items
 const FEATURED_ITEMS = [
@@ -239,7 +224,7 @@ export default async function Home() {
       </section>
 
       {/* 2. INTRODUCTORY SECTION: THE FLAVOR SHOWCASE */}
-      <section className="py-24 px-6 bg-cream-medium/40 border-y border-sand/70 relative">
+      <section id="about" className="py-24 px-6 bg-cream-medium/40 border-y border-sand/70 relative scroll-mt-12">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
           {/* Left Side: Dynamic Graphic Card */}
@@ -334,7 +319,7 @@ export default async function Home() {
       </section>
 
       {/* 3. FEATURED PRODUCTS GRID */}
-      <section id="featured" className="py-24 px-6 max-w-7xl mx-auto w-full scroll-mt-12">
+      <section id="menu" className="py-24 px-6 max-w-7xl mx-auto w-full scroll-mt-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <div className="space-y-4 max-w-2xl">
             <div className="inline-flex items-center gap-2 text-berry-crimson text-xs font-bold uppercase tracking-wider">
@@ -355,94 +340,7 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Featured Items Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {displayItems.map((item: DessertItem) => {
-            const isSanityItem = !!item._id;
-            const itemId = isSanityItem ? item._id : item.id;
-            const itemName = isSanityItem ? item.title : item.name;
-            const itemPrice = isSanityItem ? item.price : item.price;
-            const itemDescription = isSanityItem ? item.description : item.description;
-            const itemCategory = isSanityItem ? item.category : item.category;
-            const itemBadge = isSanityItem ? "New Creation" : item.badge;
-            const imageUrl = isSanityItem && item.image ? urlFor(item.image).url() : null;
-
-            return (
-              <div 
-                key={itemId} 
-                className="group bg-white rounded-3xl border border-sand hover:border-berry-rose/30 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden"
-              >
-                {/* Card visual wrapper */}
-                <div>
-                  {/* Premium gradient header representing image placeholder or live image */}
-                  <div className="h-48 relative flex items-center justify-center border-b border-sand/50 overflow-hidden bg-gradient-to-br from-cream-medium via-cream-light to-berry-light/20">
-                    {imageUrl ? (
-                      <img 
-                        src={imageUrl} 
-                        alt={itemName} 
-                        className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                      />
-                    ) : (
-                      <>
-                        <div className="absolute inset-0 bg-radial-gradient from-white/10 to-transparent pointer-events-none" />
-                        <div className="text-6xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 ease-out">{item.emoji || "🧁"}</div>
-                      </>
-                    )}
-                    
-                    {/* Category & Badge */}
-                    <span className="absolute top-4 left-4 text-[10px] font-bold text-berry-crimson bg-berry-light px-2.5 py-1 rounded-full uppercase tracking-wider z-10">
-                      {itemCategory}
-                    </span>
-                    
-                    <span className="absolute top-4 right-4 text-[10px] font-extrabold text-white bg-berry-deep px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">
-                      {itemBadge}
-                    </span>
-
-                    {/* Elegant decorative curves */}
-                    <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white to-transparent z-10" />
-                  </div>
-
-                  {/* Card description details */}
-                  <div className="p-8 space-y-4">
-                    <h3 className="font-serif text-2xl font-bold text-berry-deep group-hover:text-berry-crimson transition-colors duration-200">
-                      {itemName}
-                    </h3>
-                    <p className="text-sm text-taupe leading-relaxed">
-                      {itemDescription}
-                    </p>
-                    
-                    {/* Custom spec table */}
-                    <div className="pt-3 flex flex-col gap-1.5 border-t border-sand/40">
-                      <p className="text-xs text-chocolate-dark font-medium flex justify-between">
-                        <span className="text-taupe">Flavor Profile:</span>
-                        <span className="text-right max-w-[180px] truncate">
-                          {isSanityItem ? "Artisanal Recipe" : item.flavor}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Card Footer pricing & call action */}
-                <div className="px-8 pb-8 pt-4 border-t border-sand/40 flex justify-between items-center bg-cream-light/10">
-                  <div>
-                    <span className="text-[10px] text-taupe uppercase tracking-wider block">Estimated Price</span>
-                    <span className="text-lg font-bold text-berry-deep">{itemPrice}</span>
-                  </div>
-                  
-                  <a 
-                    href="#custom"
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-berry-crimson group-hover:text-berry-deep transition-colors"
-                  >
-                    <span>Order Concept</span>
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                </div>
-
-              </div>
-            );
-          })}
-        </div>
+        <DessertGrid initialItems={displayItems} />
       </section>
 
       {/* 4. THE CRAFTING PROCESS SECTION */}
@@ -564,7 +462,7 @@ export default async function Home() {
       </section>
 
       {/* 6. POLISHED TESTIMONIALS SECTION */}
-      <section className="bg-berry-light/20 py-24 px-6 border-t border-sand/40">
+      <section id="contact" className="bg-berry-light/20 py-24 px-6 border-t border-sand/40 scroll-mt-12">
         <div className="max-w-7xl mx-auto">
           
           <div className="text-center max-w-3xl mx-auto space-y-4 mb-20">
